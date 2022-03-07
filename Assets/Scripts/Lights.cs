@@ -20,7 +20,7 @@ public class Lights : MonoBehaviour
         for (int i = 0; i < _Lights.Length; i++)
         {
             //Intensity
-            _Lights[i].intensity = audioIntensity *0.2f;
+            _Lights[i].intensity = 1000 * audioIntensity *0.2f;
 
             //Color
             float r = audioIntensity_r*0.05f;
