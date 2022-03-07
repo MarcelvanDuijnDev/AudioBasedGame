@@ -69,4 +69,12 @@ public class Movement_CC_FirstPerson : MonoBehaviour
     {
         _LockRotation = state;
     }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if(other.tag == "Enemy")
+        {
+            GameHandler.HANDLER.GameOver();
+        }
+    }
 }

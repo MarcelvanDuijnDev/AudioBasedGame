@@ -16,6 +16,9 @@ public class Menu : MonoBehaviour
 
     void Start()
     {
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
+
         aphaImage = _SongsObj.color.a;
     }
 

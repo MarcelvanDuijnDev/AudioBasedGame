@@ -13,9 +13,10 @@ GameObject:
   - component: {fileID: 4022788990281723748}
   - component: {fileID: 3990409990023069898}
   - component: {fileID: 3936685539753194104}
+  - component: {fileID: -3203716291243055806}
   m_Layer: 0
   m_Name: Enemy
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -116,3 +117,16 @@ MonoBehaviour:
   _Multi: 0.5
   _DeathEffectPrefab: {fileID: 1006890564101802, guid: 34f9ead89983a584faa4c476bd4c3692,
     type: 3}
+--- !u!65 &-3203716291243055806
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3977450634315542270}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1.1, y: 1.1, z: 1.1}
+  m_Center: {x: 0, y: 0, z: 0}

@@ -39,6 +39,7 @@ public class Enemy : MonoBehaviour
 
         if (_Health <= 0)
         {
+            GameHandler.HANDLER.Score += 100;
             GameObject obj = Instantiate(_DeathEffectPrefab);
             obj.transform.position = this.transform.position;
             this.gameObject.SetActive(false);
