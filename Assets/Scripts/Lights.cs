@@ -26,6 +26,21 @@ public class Lights : MonoBehaviour
             float r = audioIntensity_r*0.05f;
             float g = audioIntensity_g*0.05f;
             float b = audioIntensity_b*0.05f;
+
+            if (r < 0)
+                r = 0;
+            if (g < 0)
+                g = 0;
+            if (b < 0)
+                b = 0;
+
+            if (r > 1)
+                r = 1;
+            if (g > 1)
+                g = 1;
+            if (b > 1)
+                b = 1;
+
             //Debug.Log("r: " + r + " | " + "g: " + g + " | " + "b: " + b);
 
             if (!_InvertRGB)

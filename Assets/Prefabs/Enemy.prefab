@@ -110,8 +110,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a3b083daddb59ee44908557d0ffda669, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _Speed: 5
+  _Speed: 10
   _Health: 100
   _HealthMax: 100
-  _Multi: 1
-  _DeathEffectPrefab: {fileID: 1006890564101802, guid: 34f9ead89983a584faa4c476bd4c3692, type: 3}
+  _Multi: 0.5
+  _DeathEffectPrefab: {fileID: 1006890564101802, guid: 34f9ead89983a584faa4c476bd4c3692,
+    type: 3}
