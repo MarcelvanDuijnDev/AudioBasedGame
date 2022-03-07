@@ -56,12 +56,12 @@ public class Menu : MonoBehaviour
         changeImage = true;
     }
 
-    public void Click_LoadScene(int sceneindex)
+    public void LoadScene(string scenename)
     {
-        SceneManager.LoadScene(sceneindex);
+        SceneManager.LoadScene(scenename);
     }
 
-    public void Click_Quit()
+    public void Quit()
     {
         Application.Quit();
     }

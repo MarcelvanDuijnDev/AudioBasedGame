@@ -1,11 +1,11 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using UnityEngine.UI;
 using UnityEngine;
+using TMPro;
 
-public class UI : MonoBehaviour 
+public class UIHandler : MonoBehaviour 
 {
-    [SerializeField] private Text _SongInfo;
+    [SerializeField] private TextMeshProUGUI _SongInfoText;
     [SerializeField] private AudioSource _AudioSource;
 
     private string sName, sDuration;
@@ -16,6 +16,6 @@ public class UI : MonoBehaviour
         sName = _AudioSource.clip.name.ToString();
         audioLength = _AudioSource.clip.length / 60;
         sDuration = audioLength.ToString("F0");
-        _SongInfo.text = sName + "        " + sDuration;
+        _SongInfoText.text = sName + "        " + sDuration;
     }
 }
