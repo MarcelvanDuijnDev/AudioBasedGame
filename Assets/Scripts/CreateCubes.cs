@@ -4,41 +4,39 @@ using UnityEngine;
 
 public class CreateCubes : MonoBehaviour 
 {
-    public GameObject prefab_Cube;
-    private GameObject[] cubes = new GameObject[512];
-    public float maxScale;
+    [Header("Settings")]
+    [SerializeField] private GameObject _Prefab_Cube = null;
+    [SerializeField] private float _MaxScale = 500;
+    [SerializeField] private Vector3 _ObjSize = new Vector3(3,3,3);
+    [SerializeField] private float _Distance = 180;
+    [SerializeField] private float _Height = 0;
 
-    public Vector3 objSize;
-    public float distance;
-    public float height;
+    private GameObject[] _Cubes = new GameObject[512];
 
-	void Start () 
+    void Start () 
     {
-        for (int i = 0; i < cubes.Length; i++)
+        for (int i = 0; i < _Cubes.Length; i++)
         {
-            GameObject obj = (GameObject)Instantiate(prefab_Cube);
+            GameObject obj = (GameObject)Instantiate(_Prefab_Cube);
             obj.transform.position = this.transform.position;
             obj.transform.parent = this.transform;
             obj.name = "Cube: " + i.ToString();
             this.transform.eulerAngles = new Vector3(0, -0.703125f * i, 0);
-            obj.transform.position = Vector3.forward * distance;
+            obj.transform.position = Vector3.forward * _Distance;
             Vector3 pos = obj.transform.position;
-            pos.y += height;
-
+            pos.y += _Height;
 
             obj.transform.position = pos;
-            cubes[i] = obj;
+            _Cubes[i] = obj;
         }
 	}
 	
 	void Update () 
     {
-        for (int i = 0; i < cubes.Length; i++)
+        for (int i = 0; i < _Cubes.Length; i++)
         {
-            if (cubes != null)
-            {
-                cubes[i].transform.localScale = new Vector3(objSize.x,(ReadAudioFile.samples[i] * maxScale) + objSize.y,objSize.z);
-            }
+            if (_Cubes != null)
+                _Cubes[i].transform.localScale = new Vector3(_ObjSize.x,(ReadAudioFile._Samples[i] * _MaxScale) + _ObjSize.y,_ObjSize.z);
         }
 	}
 }

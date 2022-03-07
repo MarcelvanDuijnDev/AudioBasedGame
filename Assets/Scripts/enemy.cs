@@ -2,26 +2,28 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class enemy : MonoBehaviour 
+public class Enemy : MonoBehaviour 
 {
-    public GameObject player;
-    public float speed;
-    public float health;
-    public float healthReset;
-    public float multi;
-    public GameObject deathEffectPrefab;
+    [Header("Settings")]
+    [SerializeField] private float _Speed = 3;
+    [SerializeField] private float _Health = 100;
+    [SerializeField] private float _HealthMax = 100;
+    [SerializeField] private float _Multi = 1;
+    [SerializeField] private GameObject _DeathEffectPrefab = null;
 
-    private Vector3 scaleObj;
+    private Vector3 _ScaleObj;
+    private Transform _PlayerObj;
 
-	void Start () 
+    void Start () 
     {
-        healthReset = health;
-        scaleObj = this.gameObject.transform.localScale;
+        _PlayerObj = GameObject.Find("Player").transform;
+        _HealthMax = _Health;
+        _ScaleObj = this.gameObject.transform.localScale;
 	}
 
     void OnDisable()
     {
-        health = healthReset;
+        _Health = _HealthMax;
     }
 	
 	void Update () 
@@ -29,19 +31,24 @@ public class enemy : MonoBehaviour
         float audioIntensity = 0;
         for (int i = 0; i < 8; i++)
         {
-            audioIntensity += ReadAudioFile.bandBuffer[i];
+            audioIntensity += ReadAudioFile._BandBuffer[i];
         }
-        scaleObj = new Vector3(audioIntensity * multi,audioIntensity * multi,audioIntensity * multi);
-        this.gameObject.transform.localScale = scaleObj;
+        _ScaleObj = new Vector3(audioIntensity * _Multi,audioIntensity * _Multi,audioIntensity * _Multi);
+        this.gameObject.transform.localScale = _ScaleObj;
 
 
-        if (health <= 0)
+        if (_Health <= 0)
         {
-            GameObject obj = Instantiate(deathEffectPrefab);
+            GameObject obj = Instantiate(_DeathEffectPrefab);
             obj.transform.position = this.transform.position;
             this.gameObject.SetActive(false);
         }
          
-        transform.position = Vector3.MoveTowards(transform.position, player.transform.position, speed * Time.deltaTime);
+        transform.position = Vector3.MoveTowards(transform.position, _PlayerObj.position, _Speed * Time.deltaTime);
 	}
+
+    public void DoDamage(float amount)
+    {
+        _Health -= amount;
+    }
 }

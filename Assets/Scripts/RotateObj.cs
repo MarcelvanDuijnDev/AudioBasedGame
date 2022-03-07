@@ -4,28 +4,23 @@ using UnityEngine;
 
 public class RotateObj : MonoBehaviour {
 
-    public Vector3 rotateSpeed;
-    public bool rotationBasedOnAudio;
-
-	void Start () 
-    {
-		
-	}
+    [SerializeField] private Vector3 _RotateSpeed;
+    [SerializeField] private bool _RotationBasedOnAudio;
 	
 	void Update () 
     {
-        if (!rotationBasedOnAudio)
+        if (!_RotationBasedOnAudio)
         {
-            this.transform.Rotate(rotateSpeed.x * Time.deltaTime, rotateSpeed.y * Time.deltaTime, rotateSpeed.z * Time.deltaTime);
+            this.transform.Rotate(_RotateSpeed.x * Time.deltaTime, _RotateSpeed.y * Time.deltaTime, _RotateSpeed.z * Time.deltaTime);
         }
         else
         {
             float rotSpeed = 0;
             for (int i = 0; i < 8; i++)
             {
-                rotSpeed += ReadAudioFile.bandBuffer[i];
+                rotSpeed += ReadAudioFile._BandBuffer[i];
             }
-            this.transform.Rotate(rotateSpeed.x * rotSpeed * Time.deltaTime, rotateSpeed.y * rotSpeed * Time.deltaTime, rotateSpeed.z * rotSpeed * Time.deltaTime);
+            this.transform.Rotate(_RotateSpeed.x * rotSpeed * Time.deltaTime, _RotateSpeed.y * rotSpeed * Time.deltaTime, _RotateSpeed.z * rotSpeed * Time.deltaTime);
         }
 	}
 }

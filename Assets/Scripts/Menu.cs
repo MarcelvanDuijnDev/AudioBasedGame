@@ -6,18 +6,18 @@ using UnityEngine;
 
 public class Menu : MonoBehaviour 
 {
-    public GameObject camera;
-    public GameObject point1, point2;
+    [Header("Settings")]
+    [SerializeField] private Transform _CameraObj;
+    [SerializeField] private GameObject _Point1, _Point2;
+    [SerializeField] private Image _SongsObj;
 
-    public Image songsObj;
     private bool changeImage;
-    float aphaImage;
+    private float aphaImage;
 
     void Start()
     {
-        aphaImage = songsObj.color.a;
+        aphaImage = _SongsObj.color.a;
     }
-
 
     void Update()
     {
@@ -32,9 +32,9 @@ public class Menu : MonoBehaviour
             {
                 aphaImage += 1 * Time.deltaTime;
             }
-            if (camera.transform.position != point1.transform.position)
+            if (_CameraObj.position != _Point1.transform.position)
             {
-                camera.transform.position = Vector3.MoveTowards(camera.transform.position,point1.transform.position,5 * Time.deltaTime);
+                _CameraObj.position = Vector3.MoveTowards(_CameraObj.position,_Point1.transform.position,5 * Time.deltaTime);
             }
         }
         else
@@ -43,12 +43,12 @@ public class Menu : MonoBehaviour
             {
                 aphaImage -= 1 * Time.deltaTime;
             }
-            if (camera.transform.position != point2.transform.position)
+            if (_CameraObj.position != _Point2.transform.position)
             {
-                camera.transform.position = Vector3.MoveTowards(camera.transform.position,point2.transform.position,5 * Time.deltaTime);
+                _CameraObj.position = Vector3.MoveTowards(_CameraObj.position,_Point2.transform.position,5 * Time.deltaTime);
             }
         }
-        songsObj.color = new Color(0,0,0,aphaImage);
+        _SongsObj.color = new Color(0,0,0,aphaImage);
     }
 
     public void Click_Start()

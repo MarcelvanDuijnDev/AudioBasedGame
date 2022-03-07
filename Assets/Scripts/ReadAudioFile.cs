@@ -5,57 +5,58 @@ using UnityEngine;
 [RequireComponent (typeof(AudioSource))]
 public class ReadAudioFile : MonoBehaviour 
 {
-    public int mapId;
-    AudioSource audioScource;
-    public static float[] samples = new float[512];
-    public static float[] freqBand = new float[8];
-    public static float[] bandBuffer = new float[8];
-    private float[] bufferDecrease = new float[8];
+    [Header("Settings")]
+    [SerializeField] private int _MapId;
+    [SerializeField] private int _MusicAmount;
+    [SerializeField] private MusicMap[] _MusicMapScript;
 
-    public int musicAmount;
-    public MusicMap[] musicMapScript;
+    //Static
+    public static float[] _Samples = new float[512];
+    public static float[] _FreqBand = new float[8];
+    public static float[] _BandBuffer = new float[8];
+
+    private float[] _BufferDecrease = new float[8];
+    private AudioSource _AudioScource;
 
     void Start()
     {
-        audioScource = GetComponent<AudioSource>();
+        _AudioScource = GetComponent<AudioSource>();
     }
 
     void Update()
     {
-        if (!audioScource.isPlaying)
+        if (!_AudioScource.isPlaying)
         {
-            audioScource.clip = musicMapScript[mapId].audioClips[musicAmount];
-            musicAmount += 1;
-            audioScource.Play();
+            _AudioScource.clip = _MusicMapScript[_MapId].audioClips[_MusicAmount];
+            _MusicAmount += 1;
+            _AudioScource.Play();
         }
 
         GetSpectrumAudioSource();
         MakeFrequencyBands();
         BandBuffer();
 
-        Debug.Log(audioScource.clip.samples);
-        float samplesAmount = audioScource.clip.samples / 1000 / 50;
-        Debug.Log(samplesAmount);
+        float samplesAmount = _AudioScource.clip.samples / 1000 / 50;
     }
 
     void GetSpectrumAudioSource()
     {
-        audioScource.GetSpectrumData(samples, 0, FFTWindow.Blackman);
+        _AudioScource.GetSpectrumData(_Samples, 0, FFTWindow.Blackman);
     }
 
     void BandBuffer()
     {
         for (int i = 0; i < 8; i++)
         {
-            if (freqBand[i] > bandBuffer[i])
+            if (_FreqBand[i] > _BandBuffer[i])
             {
-                bandBuffer[i] = freqBand[i];
-                bufferDecrease[i] = 0.005f;
+                _BandBuffer[i] = _FreqBand[i];
+                _BufferDecrease[i] = 0.005f;
             }
-            if (freqBand[i] < bandBuffer[i])
+            if (_FreqBand[i] < _BandBuffer[i])
             {
-                bandBuffer[i] -= bufferDecrease[i];
-                bufferDecrease[i] *= 1.2f;
+                _BandBuffer[i] -= _BufferDecrease[i];
+                _BufferDecrease[i] *= 1.2f;
             }
         }
     }
@@ -96,12 +97,12 @@ public class ReadAudioFile : MonoBehaviour
             }
             for (int j = 0; j < sampleCount; j++)
             {
-                average += samples[count] * (count + 1);
+                average += _Samples[count] * (count + 1);
                 count++;
             }
 
             average /= count;
-            freqBand[i] = average * 10;
+            _FreqBand[i] = average * 10;
         }
     }
 }

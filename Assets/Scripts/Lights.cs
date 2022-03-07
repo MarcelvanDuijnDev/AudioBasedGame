@@ -4,24 +4,23 @@ using UnityEngine;
 
 public class Lights : MonoBehaviour 
 {
-    public Light[] lights;
-
-    public bool invertRGB;
+    [SerializeField] private Light[] _Lights;
+    [SerializeField] private bool _InvertRGB;
 	
 	void Update () 
     {
         float audioIntensity = 0;
-        float audioIntensity_r = ReadAudioFile.bandBuffer[0] + ReadAudioFile.bandBuffer[1];
-        float audioIntensity_g = ReadAudioFile.bandBuffer[2] + ReadAudioFile.bandBuffer[3];
-        float audioIntensity_b = ReadAudioFile.bandBuffer[4] + ReadAudioFile.bandBuffer[5];
+        float audioIntensity_r = ReadAudioFile._BandBuffer[0] + ReadAudioFile._BandBuffer[1];
+        float audioIntensity_g = ReadAudioFile._BandBuffer[2] + ReadAudioFile._BandBuffer[3];
+        float audioIntensity_b = ReadAudioFile._BandBuffer[4] + ReadAudioFile._BandBuffer[5];
         for (int i = 0; i < 8; i++)
         {
-            audioIntensity += ReadAudioFile.bandBuffer[i];
+            audioIntensity += ReadAudioFile._BandBuffer[i];
         }
-        for (int i = 0; i < lights.Length; i++)
+        for (int i = 0; i < _Lights.Length; i++)
         {
             //Intensity
-            lights[i].intensity = audioIntensity *0.2f;
+            _Lights[i].intensity = audioIntensity *0.2f;
 
             //Color
             float r = audioIntensity_r*0.05f;
@@ -29,13 +28,13 @@ public class Lights : MonoBehaviour
             float b = audioIntensity_b*0.05f;
             //Debug.Log("r: " + r + " | " + "g: " + g + " | " + "b: " + b);
 
-            if (!invertRGB)
+            if (!_InvertRGB)
             {
-                lights[i].color = new Color(r, g, b);
+                _Lights[i].color = new Color(r, g, b);
             }
             else
             {
-                lights[i].color = new Color(b, g, r);
+                _Lights[i].color = new Color(b, g, r);
             }
         }
 	}

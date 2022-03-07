@@ -4,22 +4,21 @@ using UnityEngine;
 
 public class SpawnEnemy : MonoBehaviour 
 {
-    public ObjectPool_Script[] objectPoolScripts;
-    public GameObject spawnAreas;
+    [Header("Settings")]
+    [SerializeField] private GameObject _SpawnAreas = null;
+    [SerializeField] private float _SpawnRate = 20;
 
-    public float spawnRate;
-    private float spawnRateReset;
-    private Transform[] spawnArea;
+    private float _SpawnRateReset;
+    private Transform[] _SpawnArea;
 
     void Start()
     {
-        Random.seed = 100;
-        spawnArea = new Transform[spawnAreas.transform.childCount];
-        for (int i = 0; i < spawnArea.Length; i++)
+        _SpawnArea = new Transform[_SpawnAreas.transform.childCount];
+        for (int i = 0; i < _SpawnArea.Length; i++)
         {
-            spawnArea[i] = spawnAreas.transform.GetChild(i);
+            _SpawnArea[i] = _SpawnAreas.transform.GetChild(i);
         }
-        spawnRateReset = spawnRate;
+        _SpawnRateReset = _SpawnRate;
     }
 
     void Update()
@@ -27,34 +26,26 @@ public class SpawnEnemy : MonoBehaviour
         float audioIntensity = 0;
         for (int i = 0; i < 8; i++)
         {
-            audioIntensity += ReadAudioFile.freqBand[i];
+            audioIntensity += ReadAudioFile._FreqBand[i];
         }
-        spawnRate -= audioIntensity * Time.deltaTime;
+        _SpawnRate -= audioIntensity * Time.deltaTime;
 
-        if (spawnRate <= 0)
+        if (_SpawnRate <= 0)
         {
-            int spawnid = Random.Range(0,spawnArea.Length);
+            int spawnid = Random.Range(0,_SpawnArea.Length);
             Vector3 vec = new Vector3(
-                Random.Range(spawnArea[spawnid].transform.position.x - spawnArea[spawnid].transform.localScale.x*0.5f,spawnArea[spawnid].transform.position.x + spawnArea[spawnid].transform.localScale.x*0.5f), //x
-                Random.Range(spawnArea[spawnid].transform.position.y - spawnArea[spawnid].transform.localScale.y*0.5f,spawnArea[spawnid].transform.position.y + spawnArea[spawnid].transform.localScale.y*0.5f), //y
-                Random.Range(spawnArea[spawnid].transform.position.z - spawnArea[spawnid].transform.localScale.z*0.5f,spawnArea[spawnid].transform.position.z + spawnArea[spawnid].transform.localScale.z*0.5f)); //z
-            Spawn_Enemy(0, vec);
-            Debug.Log("SpawnEnemy");
-            spawnRate += spawnRateReset;
+                Random.Range(_SpawnArea[spawnid].transform.position.x - _SpawnArea[spawnid].transform.localScale.x*0.5f,_SpawnArea[spawnid].transform.position.x + _SpawnArea[spawnid].transform.localScale.x*0.5f), //x
+                Random.Range(_SpawnArea[spawnid].transform.position.y - _SpawnArea[spawnid].transform.localScale.y*0.5f,_SpawnArea[spawnid].transform.position.y + _SpawnArea[spawnid].transform.localScale.y*0.5f), //y
+                Random.Range(_SpawnArea[spawnid].transform.position.z - _SpawnArea[spawnid].transform.localScale.z*0.5f,_SpawnArea[spawnid].transform.position.z + _SpawnArea[spawnid].transform.localScale.z*0.5f)); //z
+            Spawn_Enemy("EnemyA", vec);
+            _SpawnRate += _SpawnRateReset;
         }
     }
 
-    void Spawn_Enemy(int enemyIndex, Vector3 spawnLoc)
+    void Spawn_Enemy(string enemyname, Vector3 spawnLoc)
     {
-        for (int i = 0; i < objectPoolScripts[enemyIndex].objects.Count; i++)
-        {
-            if (!objectPoolScripts[enemyIndex].objects[i].activeInHierarchy)
-            {
-                objectPoolScripts[enemyIndex].objects[i].transform.position = spawnLoc;
-                //objectPoolScripts[enemyIndex].objects[i].transform.rotation =;
-                objectPoolScripts[enemyIndex].objects[i].SetActive(true);
-                break;
-            }
-        }
+        GameObject enemy = ObjectPool.POOL.GetObject(enemyname, false);
+        enemy.transform.position = spawnLoc;
+        enemy.SetActive(true);
     }
 }

@@ -4,32 +4,32 @@ using UnityEngine;
 
 public class Weapon : MonoBehaviour 
 {
-    private LineRenderer lr;
+    [SerializeField] private float _Range;
 
-    [SerializeField]private float range;
+    private LineRenderer _LineR;
+
 	void Start () 
     {
-        lr = GetComponent<LineRenderer>();
+        _LineR = GetComponent<LineRenderer>();
 	}
 	
 	void Update () 
     {
         RaycastHit hit;
-        // Does the ray intersect any objects excluding the player layer
         if (Input.GetMouseButton(0))
         {
             if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.forward), out hit, Mathf.Infinity))
             {
-                lr.enabled = true;
-                lr.SetPosition(0, transform.position);
-                lr.SetPosition(1, hit.point);
-                if(hit.transform.gameObject.GetComponent<enemy>() != null)
-                hit.transform.gameObject.GetComponent<enemy>().health -= 1 * Time.deltaTime;
+                _LineR.enabled = true;
+                _LineR.SetPosition(0, transform.position);
+                _LineR.SetPosition(1, hit.point);
+                if (hit.transform.gameObject.GetComponent<Enemy>() != null)
+                    hit.transform.gameObject.GetComponent<Enemy>().DoDamage(1);
             }
         }
         else
         {
-            lr.enabled = false;
+            _LineR.enabled = false;
         }
 	}
 }
