@@ -24,6 +24,9 @@ public class GameHandler : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.P))
             GameOver();
+
+        if (Input.GetKeyDown(KeyCode.Escape))
+            SceneManager.LoadScene("Menu");
     }
 
     public void GameOver()
